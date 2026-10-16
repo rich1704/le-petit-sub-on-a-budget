@@ -16,7 +16,7 @@ from sub import (BIS_PLATE_SIDE, BIS_PLATE_TB, BIS_SIDE_TB, CUTOUT, D, DRIVER, D
 OUT = Path(__file__).resolve().parent.parent / "docs" / "plans"
 PW, PH = 420, 297                    # A3 landscape, mm
 DATE = "16.10.2026"
-REV = "A — design, not yet built"
+REV = "A"
 R_REC, R_CUT, R_PCD = RECESS / 2, CUTOUT / 2, DRIVER["pcd"] / 2
 INS_DRILL = 6.5
 GL_V = H - GLAND["from_bottom"]      # gland centre below the top: 430

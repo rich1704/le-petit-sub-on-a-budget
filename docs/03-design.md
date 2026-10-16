@@ -5,8 +5,9 @@ Thiele/Small model of the two together. All of it is computed by
 [tools/make_charts.py](https://github.com/rich1704/le-petit-sub-on-a-budget/blob/main/tools/make_charts.py)
 from the values in [tools/sub.py](https://github.com/rich1704/le-petit-sub-on-a-budget/blob/main/tools/sub.py).
 
-> **Predictions, not measurements.** The sub isn't built yet. When it is, the measured response,
-> impedance and distortion will be added here next to these predictions.
+> **Predicted from the datasheet.** Every curve here comes from the driver's published parameters.
+> Wool, the exact volume and the driver's spread move Fc and Q a little — measure your box and set
+> the Linkwitz transform to the measured values ([how](02-amp-and-dsp.md#3-fc-and-q)).
 
 ## The driver
 

@@ -5,7 +5,7 @@ sides sit between them, top and bottom between the plates and the sides. Butt jo
 **biscuits and wood glue**, glued shut; the drivers go in from outside. All dimensions in mm. The
 drawings are vector files (SVG) — open them full size to print at any scale.
 
-> **Rev. A — design, not yet built.** The sheets are drawn by
+> **Rev. A.** The sheets are drawn by
 > [make_building_plan.py](https://github.com/rich1704/le-petit-sub-on-a-budget/blob/main/tools/make_building_plan.py)
 > from the dimensions in [sub.py](https://github.com/rich1704/le-petit-sub-on-a-budget/blob/main/tools/sub.py),
 > which also checks them: inside volume, brace lengths, magnet clearance, recess and insert

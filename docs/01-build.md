@@ -4,9 +4,6 @@ From one board of OSB to the first note, in the order you'll do it. The
 [building plan](building-plan.md) has every dimension; this guide adds the order, the cutting plan
 and the reasons.
 
-> **Status: plan.** The sub isn't built yet. Photos and lessons from the build will be added to each
-> step as it happens.
-
 | | At a glance |
 | --- | --- |
 | **Result** | a sealed 44-litre box, 340 × 530 × 350 mm, two opposed 10″ drivers in the sides |

@@ -172,7 +172,7 @@ text{font-family:Helvetica,Arial,sans-serif;fill:#000}
 <line x1="355" y1="277" x2="355" y2="287" class="t"/>
 <line x1="385" y1="277" x2="385" y2="287" class="t"/>
 <text x="286" y="281.5" font-size="1.7">All dimensions in mm</text>
-<text x="286" y="285" font-size="1.7">Rev. A — design, not yet built · 16.10.2026</text>
+<text x="286" y="285" font-size="1.7">Rev. A · 16.10.2026</text>
 <text x="358" y="283" font-size="1.7">n.t.s. @ A3</text>
 <text x="388" y="283" font-size="1.7">Sheet 3 / 3</text>
 </svg>

@@ -5,9 +5,7 @@ OSB with exactly Le Petit's 340 × 530 front, driven by one TPA3255 board and tu
 
 📂 All files, drawings and scripts: **https://github.com/rich1704/le-petit-sub-on-a-budget**
 
-> **Status: designed, not built yet.** Everything here is the plan: drawings, cut list, DSP and
-> predictions from the driver's datasheet. Photos and measurements will follow as it's built, the
-> same way as for [Le Petit on a budget](https://github.com/rich1704/le-petit-on-a-budget).
+The companion to [Le Petit on a budget](https://github.com/rich1704/le-petit-on-a-budget).
 
 > **In short**
 >
