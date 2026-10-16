@@ -1,0 +1,5 @@
+/* charts, diagrams and plans are drawn on white: keep them on a white plate in dark mode too */
+.md-typeset img[src*="charts/"], .md-typeset img[src*="diagrams/"], .md-typeset img[src*="plans/"] {
+  background: #fff; border-radius: 6px; padding: 6px;
+}
+.md-typeset img { border-radius: 6px; }

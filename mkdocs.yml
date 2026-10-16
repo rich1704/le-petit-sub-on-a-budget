@@ -1,0 +1,54 @@
+site_name: Le Petit Sub on a budget
+site_description: Le Petit's bigger twin — a sealed subwoofer with two opposed 10″ drivers from one sheet of OSB, a TPA3255 and CamillaDSP.
+site_url: https://rich1704.github.io/le-petit-sub-on-a-budget/
+repo_url: https://github.com/rich1704/le-petit-sub-on-a-budget
+repo_name: le-petit-sub-on-a-budget
+copyright: Documentation CC BY-SA 4.0 · companion to Le Petit, designed by Jean Hiraga (1983)
+docs_dir: docs
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: blue grey
+      accent: deep orange
+      toggle: {icon: material/weather-night, name: Dark mode}
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue grey
+      accent: deep orange
+      toggle: {icon: material/weather-sunny, name: Light mode}
+  font:
+    text: IBM Plex Sans
+    code: IBM Plex Mono
+  features:
+    - navigation.instant
+    - navigation.sections
+    - navigation.footer
+    - toc.follow
+    - search.highlight
+    - content.tables.sort
+    - content.code.copy
+    - navigation.top
+nav:
+  - Home: index.md
+  - Build:
+      - Build guide: 01-build.md
+      - Building plan: building-plan.md
+  - Sound:
+      - Amp and DSP: 02-amp-and-dsp.md
+      - Design and predictions: 03-design.md
+  - Credits & license: CREDITS.md
+markdown_extensions:
+  - tables
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.details
+  - pymdownx.highlight
+  - pymdownx.superfences
+extra_css:
+  - assets/extra.css
