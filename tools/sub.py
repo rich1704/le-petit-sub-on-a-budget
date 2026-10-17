@@ -1,11 +1,11 @@
 """Le Petit Sub: every dimension and driver value in one place, plus the checks that keep them honest.
 
-The drawings (make_building_plan.py, make_cut_layout.py), the charts and the CamillaDSP example
-(make_charts.py) all import this module, so a change here reaches every page.
+The drawings (make_building_plan.py, make_cut_layout.py) and the diagrams (make_diagrams.py) import
+this module, so a change here reaches every page. The 3D model (docs/3d/index.html) uses the same
+numbers.
 
     python tools/sub.py          prints the design numbers and runs the geometry checks
 """
-import math
 
 # ------------------------------------------------------------------ material and box (mm)
 T = 22                          # OSB thickness - measure yours; everything inside follows from it
@@ -59,8 +59,7 @@ GLAND: dict[str, float] = dict(hole=20.5, u=W / 2, from_bottom=100)
 SHEET = (2000, 1000)
 KERF, TRIM = 3, 10
 
-# ------------------------------------------------------------------ acoustics
-RHO, C0 = 1.18, 343.0
+# ------------------------------------------------------------------ volume
 DRIVER_DISPLACEMENT = 1.5       # litres per driver (basket + magnet), estimated from the drawing
 
 
@@ -70,17 +69,6 @@ def volumes():
     win = (2 * WIN["fb"] + 2 * WIN["side"]) * STRIP * T / 1e6
     net = gross - tie - win - N_DRV * DRIVER_DISPLACEMENT
     return dict(gross=gross, braces=tie + win, drivers=N_DRV * DRIVER_DISPLACEMENT, net=net)
-
-
-def alignment(vb_l=None):
-    """Sealed-box alignment. Both drivers share the box and move together, so each one
-    works into half of it."""
-    d = DRIVER
-    vb = (vb_l or volumes()["net"]) / N_DRV
-    a = d["Vas"] / vb
-    fc = d["Fs"] * math.sqrt(1 + a)
-    qtc = d["Qts"] * math.sqrt(1 + a)
-    return dict(vb_per_driver=vb, alpha=a, fc=fc, qtc=qtc)
 
 
 def magnet_clearance():
@@ -118,10 +106,9 @@ def check():
 
 if __name__ == "__main__":
     check()
-    v, a = volumes(), alignment()
+    v = volumes()
     print(f"inside {IW} x {IH} x {ID} mm: gross {v['gross']:.1f} l, braces {v['braces']:.2f} l, "
           f"drivers {v['drivers']:.1f} l -> net {v['net']:.1f} l")
-    print(f"per driver {a['vb_per_driver']:.1f} l, alpha {a['alpha']:.2f}: Fc {a['fc']:.1f} Hz, Qtc {a['qtc']:.2f}")
     print(f"magnet to tie strip: {magnet_clearance():.0f} mm; "
           f"wall insert-cutout {DRIVER['pcd'] / 2 - INSERT_OD / 2 - CUTOUT / 2:.1f} mm")
     print("geometry checks passed")

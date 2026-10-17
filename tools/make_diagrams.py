@@ -1,6 +1,6 @@
-"""The two web diagrams: how the opposed drivers work, and the signal chain.
+"""The web diagram of how the opposed drivers work.
 
-    python tools/make_diagrams.py   ->  docs/assets/diagrams/{opposed-drivers,signal-chain}.svg
+    python tools/make_diagrams.py   ->  docs/assets/diagrams/opposed-drivers.svg
 """
 from pathlib import Path
 
@@ -92,51 +92,9 @@ def opposed():
             + "".join(e) + "</svg>\n")
 
 
-def signal_chain():
-    def box(x, y, w, h, title, sub_=None, bold=False, top=False):
-        s = f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="7" fill="#ffffff" stroke="{INK}" stroke-width="1.5"/>'
-        ty = y + 24 if top else y + h / 2 + (-4 if sub_ else 5)
-        s += (f'<text x="{x + w / 2}" y="{ty}" font-size="14" text-anchor="middle" fill="{INK}"'
-              f'{" font-weight=" + chr(34) + "600" + chr(34) if bold else ""}>{title}</text>')
-        if sub_:
-            s += f'<text x="{x + w / 2}" y="{ty + 17}" font-size="11.5" text-anchor="middle" fill="{MUTED}">{sub_}</text>'
-        return s
-
-    def wire(d, c=INK, w=1.6, dash=None):
-        da = f' stroke-dasharray="{dash}"' if dash else ""
-        return f'<path d="{d}" fill="none" stroke="{c}" stroke-width="{w}"{da}/>'
-
-    def lab(x, y, t, cls="m", anchor="end", c=INK):
-        return f'<text x="{x}" y="{y}" class="{cls}" font-size="13" text-anchor="{anchor}" fill="{c}">{t}</text>'
-
-    e = [box(20, 120, 130, 60, "Music", "stereo source"),
-         box(200, 110, 170, 80, "CamillaDSP", "crossover · LT · limiter", True),
-         box(420, 60, 150, 180, "4-out interface", None, True, True),
-         box(650, 30, 120, 56, "Le Petit amp", "stereo"),
-         box(650, 190, 120, 70, "TPA3255", "stereo board, 48 V"),
-         box(820, 20, 100, 38, "Le Petit L"), box(820, 64, 100, 38, "Le Petit R"),
-         box(820, 176, 100, 42, "sub, left driver"), box(820, 232, 100, 42, "sub, right driver")]
-    e += [wire("M150 150 H200"), wire("M370 150 H420")]
-    e += [lab(562, 112, "OUT 1"), lab(562, 136, "OUT 2"), lab(562, 186, "OUT 3"), lab(562, 210, "OUT 4 · spare", c=MUTED)]
-    e += [wire("M570 108 H610 V50 H650"), wire("M570 132 H620 V66 H650")]
-    e += [wire("M770 50 H795 V39 H820"), wire("M770 66 H795 V83 H820")]
-    e += [wire("M570 182 H630 V212 H650", c=ACCENT, w=2.2), wire("M630 182 V238 H650", c=ACCENT, w=2.2)]
-    e += [lab(640, 176, "Y", cls="s", anchor="middle", c=ACCENT)]
-    e += [wire("M770 212 H795 V197 H820", c=ACCENT, w=2.2), wire("M770 238 H795 V253 H820", c=ACCENT, w=2.2)]
-    e += [f'<text x="20" y="300" font-size="12" fill="{MUTED}">Le Petit: LR4 high-pass 80 Hz. '
-          f'Sub: mono sum → Linkwitz transform → LR4 low-pass 80 Hz → 18 Hz subsonic → level, delay → '
-          f'limiter 18 V.</text>',
-          f'<text x="20" y="318" font-size="12" fill="{MUTED}">One mono sub output, split to both board inputs '
-          f'(or OUT 3 + OUT 4 with the same signal). Both drivers wired + to +.</text>']
-    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 332" {FONT} role="img" '
-            f'aria-label="Signal chain: music into CamillaDSP, out of a 4-output interface. Outputs 1 and 2 drive '
-            f'Le Petit through its amp; output 3 feeds both inputs of the TPA3255 board, one channel per sub driver.">'
-            f'{STYLE}<rect width="940" height="332" fill="#ffffff"/>' + "".join(e) + "</svg>\n")
-
-
 if __name__ == "__main__":
     sub.check()
     OUT.mkdir(parents=True, exist_ok=True)
-    for name, fn in (("opposed-drivers", opposed), ("signal-chain", signal_chain)):
+    for name, fn in (("opposed-drivers", opposed),):
         (OUT / f"{name}.svg").write_text(fn())
         print("wrote", f"docs/assets/diagrams/{name}.svg")

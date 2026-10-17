@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Le Petit Sub in 3D</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#f3f1ec; --paper:#fbfaf7; --ink:#24292e; --muted:#6b6f68; --line:#c9c6bd;
+  --stage:#ebe8e1; --accent:#b4532a;
+  --f-body:"IBM Plex Sans",system-ui,sans-serif; --f-mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#1a1c1e; --paper:#222528; --ink:#e6e4de; --muted:#9a9c95; --line:#3c4044; --stage:#17191b; --accent:#e48a5f;
+  color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--f-body)}
+.wrap{max-width:1180px;margin:0 auto;padding:16px max(16px,env(safe-area-inset-left)) 24px;display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+h1{font-weight:600;font-size:clamp(20px,3.4vw,26px);margin:0}
+.lede{margin:2px 0 0;color:var(--muted);font-size:14px;max-width:80ch}
+.stage{position:relative;min-width:0;background:var(--stage);border:1px solid var(--line);border-radius:6px;overflow:hidden;aspect-ratio:16/9;min-height:320px}
+.stage canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+.stage canvas:active{cursor:grabbing}
+.tip{position:absolute;pointer-events:none;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:4px;padding:6px 9px;font:500 12.5px var(--f-mono);max-width:280px;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.tip small{display:block;font-weight:400;color:var(--muted);margin-top:2px}
+.hint{position:absolute;left:10px;bottom:8px;font:12px var(--f-mono);color:var(--muted);pointer-events:none}
+.rail{display:flex;flex-wrap:wrap;gap:12px 22px;align-items:flex-start}
+.group{display:grid;gap:6px}
+.group>span{font:500 11.5px var(--f-mono);letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+button{font:500 13.5px var(--f-body);padding:7px 12px;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:4px;cursor:pointer}
+button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.key{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:4px 18px;font-size:13.5px;margin:0;padding:0;list-style:none}
+.key b{font:500 13px var(--f-mono)}
+.key em{font-style:normal;color:var(--muted)}
+.noscript{padding:24px;color:var(--muted)}
+/* embedded in the website: the page around it already has the title */
+body.embed header{display:none}
+body.embed .wrap{padding:0 0 8px}
+/* screenshot mode: just the stage */
+body.shot .wrap{max-width:none;padding:0}
+body.shot header,body.shot .rail,body.shot .key,body.shot .hint{display:none}
+body.shot .stage{border:0;border-radius:0;aspect-ratio:auto;height:100vh}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Le Petit Sub — with the Le Petit pair</h1>
+    <p class="lede">The sealed sub between a pair of Le Petit: the same 340 × 530 front, the same 22 mm OSB, the drivers in the sides.
+    Drag to turn, scroll or pinch to zoom, hover any part for its size. The views look inside; “Play bass” shows both cones moving out together.</p>
+  </header>
+
+  <div class="stage" id="stage">
+    <noscript><div class="noscript">The 3D model needs JavaScript.</div></noscript>
+    <div class="tip" id="tip" hidden></div>
+    <div class="hint">drag · zoom · hover</div>
+  </div>
+
+  <div class="rail">
+    <div class="group">
+      <span>View</span>
+      <div class="seg" role="group" aria-label="View">
+        <button data-v="closed" aria-pressed="true">Closed</button>
+        <button data-v="xray" aria-pressed="false">See-through</button>
+        <button data-v="front" aria-pressed="false">Cut: front half off</button>
+        <button data-v="side" aria-pressed="false">Cut: right half off</button>
+        <button data-v="explode" aria-pressed="false">Exploded</button>
+      </div>
+    </div>
+    <div class="group">
+      <span>Show</span>
+      <div class="seg">
+        <button id="t-pair" aria-pressed="true">Le Petit pair</button>
+        <button id="t-play" aria-pressed="false">Play bass</button>
+        <button id="t-wool" aria-pressed="true">Wool fill</button>
+      </div>
+    </div>
+  </div>
+
+  <ul class="key">
+    <li><b>Front, back</b> <em>530 × 340, full plates over everything</em></li>
+    <li><b>Sides</b> <em>530 × 306, Ø231 cutout, Ø267 × 4.5 recess</em></li>
+    <li><b>Top, bottom</b> <em>296 × 306</em></li>
+    <li><b>Tie strip</b> <em>306 × 40 on edge, 38 mm clear of each magnet</em></li>
+    <li><b>Window brace</b> <em>2 × 296 + 2 × 226, 40 × 22, 330 below the top</em></li>
+    <li><b>Drivers</b> <em>2 × SB Acoustics SB26SFCL38-4, flush</em></li>
+    <li><b>Wool</b> <em>300–500 g loose, below the brace</em></li>
+    <li><b>Le Petit</b> <em>340 × 530 × 254 on a 300 mm stand</em></li>
+  </ul>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+(function(){
+const q=new URLSearchParams(location.search);
+if(q.has('shot')) document.body.classList.add('shot');
+if(q.has('embed')) document.body.classList.add('embed');
+const stage=document.getElementById('stage'), tip=document.getElementById('tip');
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+renderer.localClippingEnabled=true;
+stage.appendChild(renderer.domElement);
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(32,16/9,10,30000);
+const controls=new THREE.OrbitControls(camera,renderer.domElement);
+controls.enableDamping=true; controls.dampingFactor=.08;
+controls.minDistance=400; controls.maxDistance=6000; controls.maxPolarAngle=Math.PI*0.52;
+
+scene.add(new THREE.HemisphereLight(0xffffff,0x8a8070,.75));
+const sun=new THREE.DirectionalLight(0xffffff,.75); sun.position.set(700,1400,1100); scene.add(sun);
+const fill=new THREE.DirectionalLight(0xffffff,.25); fill.position.set(-900,300,-600); scene.add(fill);
+
+// ---------- procedural OSB ----------
+function osbTexture(base,flake,seed0){
+  const c=document.createElement('canvas'); c.width=c.height=512; const g=c.getContext('2d');
+  g.fillStyle=base; g.fillRect(0,0,512,512);
+  let seed=seed0; const rnd=()=>{seed=(seed*16807)%2147483647; return seed/2147483647};
+  for(let i=0;i<900;i++){
+    const x=rnd()*512,y=rnd()*512,w=14+rnd()*46,h=4+rnd()*12,a=rnd()*Math.PI,l=rnd();
+    g.save(); g.translate(x,y); g.rotate(a);
+    g.fillStyle=`rgba(${flake[0]+l*40},${flake[1]+l*30},${flake[2]+l*20},${.25+rnd()*.35})`;
+    g.fillRect(-w/2,-h/2,w,h); g.restore();
+  }
+  const t=new THREE.CanvasTexture(c); t.wrapS=t.wrapT=THREE.RepeatWrapping; t.repeat.set(1/400,1/400); return t;
+}
+const osbTex=osbTexture('#c99558',[150,100,50],7);
+const osbTexLP=osbTexture('#d2ad78',[165,118,62],11);
+
+// ---------- materials, clipping ----------
+const planes={front:new THREE.Plane(new THREE.Vector3(0,0,-1),0), side:new THREE.Plane(new THREE.Vector3(-1,0,0),0)};
+const subMats=[];
+function mat(o,clip){const m=new THREE.MeshStandardMaterial(Object.assign({side:THREE.DoubleSide},o)); if(clip!==false) subMats.push(m); return m;}
+const M={
+  osb:mat({map:osbTex,roughness:.85}),
+  brace:mat({map:osbTex,roughness:.85,color:0xe0c9a5}),
+  cone:mat({color:0x2b2d30,roughness:.7}),
+  surround:mat({color:0x1d1e20,roughness:.9}),
+  frame:mat({color:0x3a3d41,roughness:.5,metalness:.4}),
+  basket:mat({color:0x55595e,roughness:.5,metalness:.5,transparent:true,opacity:.55}),
+  magnet:mat({color:0x2a2c2f,roughness:.4,metalness:.6}),
+  gland:mat({color:0x1b1c1e,roughness:.6}),
+  lp:mat({map:osbTexLP,roughness:.85},false),
+  lpDark:mat({color:0x2a2c2f,roughness:.7},false),
+  lpCone:mat({color:0x1c1d1f,roughness:.8},false),
+  steel:mat({color:0x2b2d30,roughness:.4,metalness:.7},false),
+};
+
+// ---------- helpers ----------
+function uvBox(g,w,h,d){const uv=g.attributes.uv, dims=[[d,h],[d,h],[w,d],[w,d],[w,h],[w,h]];
+  for(let f=0;f<6;f++)for(let k=0;k<4;k++){const i=f*4+k;uv.setXY(i,uv.getX(i)*dims[f][0],uv.getY(i)*dims[f][1]);}uv.needsUpdate=true;return g;}
+const parts=[];
+function box(parent,w,h,d,material,pos,name,info,ex){
+  const m=new THREE.Mesh(uvBox(new THREE.BoxGeometry(w,h,d),w,h,d),material); m.position.set(...pos);
+  m.userData={name,info}; parent.add(m);
+  if(ex) parts.push({obj:m,home:m.position.clone(),ex:new THREE.Vector3(...ex)}); return m;
+}
+// a plate in the (z, y) plane with round holes, extruded along +x from 0 to thick
+function plateX(w,h,thick,holes){
+  const s=new THREE.Shape(); s.moveTo(-w/2,-h/2); s.lineTo(w/2,-h/2); s.lineTo(w/2,h/2); s.lineTo(-w/2,h/2); s.lineTo(-w/2,-h/2);
+  holes.forEach(([u,v,r])=>{const p=new THREE.Path(); p.absarc(u,v,r,0,Math.PI*2,true); s.holes.push(p);});
+  const g=new THREE.ExtrudeGeometry(s,{depth:thick,bevelEnabled:false,curveSegments:72}); g.rotateY(Math.PI/2); return g;
+}
+function ringX(ro,ri,thick){const s=new THREE.Shape();s.absarc(0,0,ro,0,Math.PI*2,false);const h=new THREE.Path();h.absarc(0,0,ri,0,Math.PI*2,true);s.holes.push(h);
+  const g=new THREE.ExtrudeGeometry(s,{depth:thick,bevelEnabled:false,curveSegments:72});g.rotateY(Math.PI/2);return g;}
+function latheX(pts,seg){const g=new THREE.LatheGeometry(pts.map(([r,x])=>new THREE.Vector2(r,x)),seg||64);g.rotateZ(-Math.PI/2);return g;}
+
+// ---------- the sub (dimensions as tools/sub.py) ----------
+const W=340,H=530,D=350,T=22, Y0=H/2, Zf=D/2;
+const REC_D=4.5, REC_R=133.5, CUT_R=115.5, FLANGE=3.56, OD_R=132.5, BASKET_R=114.45, DEPTH=116.8, MAG_R=60;
+const DCY=Y0-175, DCZ=0;
+const sub=new THREE.Group(); scene.add(sub);
+const drivers=[];
+box(sub,W,H,T,M.osb,[0,0,Zf-T/2],'Front','530 × 340 × 22 · plain face, like Le Petit\'s front',[0,0,190]);
+box(sub,W,H,T,M.osb,[0,0,-Zf+T/2],'Back','530 × 340 × 22 · full plate · M20 cable gland',[0,0,-190]);
+box(sub,W-2*T,T,D-2*T,M.osb,[0,Y0-T/2,0],'Top','296 × 306 × 22',[0,190,0]);
+box(sub,W-2*T,T,D-2*T,M.osb,[0,-Y0+T/2,0],'Bottom','296 × 306 × 22',[0,-190,0]);
+[-1,1].forEach(sx=>{
+  const grp=new THREE.Group(); sub.add(grp);
+  const sideInfo='530 × 306 × 22 · Ø267 × 4.5 recess, Ø231 cutout, 6 × M5 inserts · centre 175 below the top';
+  const outer=new THREE.Mesh(plateX(D-2*T,H,REC_D,[[-DCZ,DCY,REC_R]]),M.osb);
+  const inner=new THREE.Mesh(plateX(D-2*T,H,T-REC_D,[[-DCZ,DCY,CUT_R]]),M.osb);
+  if(sx<0){outer.position.x=-W/2; inner.position.x=-W/2+REC_D;} else {outer.position.x=W/2-REC_D; inner.position.x=W/2-T;}
+  [outer,inner].forEach(m=>{m.userData={name:sx<0?'Left side':'Right side',info:sideInfo};grp.add(m);});
+  // driver: local x = depth from the outside face, inwards
+  const drv=new THREE.Group(); drv.position.set(sx*W/2,DCY,DCZ); if(sx>0) drv.rotation.y=Math.PI;
+  const info='SB Acoustics SB26SFCL38-4 · 10″, 4 Ω · frame 3.56 flush in a 4.5 recess';
+  const add=(g,m)=>{const o=new THREE.Mesh(g,m);o.userData={name:'Driver',info};drv.add(o);return o;};
+  add(ringX(OD_R,BASKET_R-2,FLANGE),M.frame).position.x=REC_D-1-FLANGE;
+  add(latheX([[BASKET_R,REC_D],[100,32],[MAG_R+4,REC_D+DEPTH-34]],48),M.basket);
+  add(new THREE.CylinderGeometry(MAG_R,MAG_R,34,48).rotateZ(Math.PI/2),M.magnet).position.x=REC_D+DEPTH-17;
+  const moving=new THREE.Group(); drv.add(moving);
+  const mv=(g,m)=>{const o=new THREE.Mesh(g,m);o.userData={name:'Driver cone',info:'both cones move out together, so the pushes on the box cancel'};moving.add(o);return o;};
+  mv(latheX([[112,0.5],[104,-6],[96,0.5]],64),M.surround);
+  mv(latheX([[96,0.5],[70,22],[24,55]],64),M.cone);
+  mv(new THREE.SphereGeometry(40,32,12,0,Math.PI*2,0,Math.PI*0.3).rotateZ(Math.PI/2),M.surround).position.x=68;
+  drv.userData.moving=moving;
+  grp.add(drv);
+  parts.push({obj:grp,home:grp.position.clone(),ex:new THREE.Vector3(sx*210,0,0)});
+  drivers.push(drv);
+});
+const IZ=D-2*T, IX=W-2*T, BY=Y0-330-T/2;
+box(sub,T,40,IZ,M.brace,[0,DCY,0],'Tie strip','306 × 40 × 22 on edge, front to back · 38 mm clear of each magnet',[0,0,0]);
+box(sub,IX,T,40,M.brace,[0,BY,IZ/2-20],'Window brace, front member','296 × 40 × 22, flat · 330 below the top',[0,-70,0]);
+box(sub,IX,T,40,M.brace,[0,BY,-IZ/2+20],'Window brace, back member','296 × 40 × 22, flat · 330 below the top',[0,-70,0]);
+box(sub,40,T,IZ-80,M.brace,[-IX/2+20,BY,0],'Window brace, side member','226 × 40 × 22, flat · ties the two driver panels',[0,-70,0]);
+box(sub,40,T,IZ-80,M.brace,[IX/2-20,BY,0],'Window brace, side member','226 × 40 × 22, flat · ties the two driver panels',[0,-70,0]);
+const gl=new THREE.Mesh(new THREE.CylinderGeometry(14,14,30,24).rotateX(Math.PI/2),M.gland); gl.position.set(0,-Y0+100,-Zf-4);
+gl.userData={name:'Cable gland',info:'M20 · 100 above the bottom, centred'}; sub.add(gl);
+parts.push({obj:gl,home:gl.position.clone(),ex:new THREE.Vector3(0,0,-190)});
+// wool: a soft point cloud below the brace
+const woolGeo=new THREE.BufferGeometry(), N=2600, wp=new Float32Array(N*3);
+let ws=3; const wr=()=>{ws=(ws*16807)%2147483647;return ws/2147483647};
+for(let i=0;i<N;i++){wp[i*3]=(wr()-.5)*(IX-30); wp[i*3+1]=-Y0+T+12+wr()*(BY-T/2-(-Y0+T)-24); wp[i*3+2]=(wr()-.5)*(IZ-30);}
+woolGeo.setAttribute('position',new THREE.BufferAttribute(wp,3));
+const woolMat=new THREE.PointsMaterial({color:0xf2ede2,size:14,transparent:true,opacity:.5,depthWrite:false}); subMats.push(woolMat);
+const wool=new THREE.Points(woolGeo,woolMat); sub.add(wool);
+
+// floor
+const floor=new THREE.Mesh(new THREE.PlaneGeometry(8000,8000),new THREE.MeshStandardMaterial({color:0x8a8478,roughness:1,transparent:true,opacity:.18}));
+floor.rotation.x=-Math.PI/2; floor.position.y=-Y0-0.5; scene.add(floor);
+
+// ---------- the Le Petit pair ----------
+// 340 × 530 × 232 box + 22 mm doubler (300 × 300) on the front, driver 115 below the top, port 150 above the bottom
+function lePetit(name){
+  const g=new THREE.Group(), LW=340, LH=530, LD=232, base=-Y0+300, zf=Zf;   // fronts in one line with the sub
+  const info={name,info:'Le Petit · 340 × 530 × 254 · on its 300 mm stand'};
+  const body=box(g,LW,LH,LD,M.lp,[0,base+LH/2,zf-22-LD/2]); body.userData=info;
+  const dbl=box(g,300,300,22,M.lp,[0,base+150,zf-11]); dbl.userData={name,info:'Le Petit · doubler 300 × 300 × 22'};
+  const disc=(r,y,z,m)=>{const o=new THREE.Mesh(new THREE.CircleGeometry(r,48),m);o.position.set(0,y,z);o.userData=info;g.add(o);return o;};
+  disc(52,base+LH-115,zf-22+0.6,M.lpDark); disc(40,base+LH-115,zf-22+1.2,M.lpCone);
+  disc(35,base+150,zf+0.6,M.lpCone);
+  const leg=(x,z)=>{const l=new THREE.Mesh(new THREE.CylinderGeometry(3,3,300,12),M.steel);l.position.set(x,base-150,z);l.userData={name:'Le Petit stand',info:'300 high'};g.add(l);};
+  const zc=zf-22-LD/2;
+  [[-148,zc-90],[148,zc-90],[-148,zc+90],[148,zc+90]].forEach(([x,z])=>leg(x,z));
+  [-148,148].forEach(x=>{const r=new THREE.Mesh(new THREE.CylinderGeometry(3,3,180,12).rotateX(Math.PI/2),M.steel);r.position.set(x,base-150,zc);g.add(r);});
+  const hx=new THREE.Mesh(new THREE.CylinderGeometry(3,3,296,12).rotateZ(Math.PI/2),M.steel);hx.position.set(0,base-150,zc);g.add(hx);
+  scene.add(g); return g;
+}
+const GAP=130, LPX=W/2+GAP+340/2;
+const pair=[lePetit('Le Petit L'),lePetit('Le Petit R')];
+pair[0].position.x=-LPX; pair[1].position.x=LPX;
+
+// ---------- cameras ----------
+const CAM={pair:{pos:[1000,620,1950],tgt:[0,70,0]},solo:{pos:[820,460,1000],tgt:[0,-10,0]},explode:{pos:[1250,820,1650],tgt:[0,-20,0]}};
+function frame(which){
+  const c=CAM[which], t=new THREE.Vector3(...c.tgt), p=new THREE.Vector3(...c.pos);
+  const asp=stage.clientWidth/Math.max(1,stage.clientHeight);       // narrow screens: step back so everything fits
+  if(asp<1.6) p.sub(t).multiplyScalar(Math.min(2.2,1.6/asp)).add(t);
+  camera.position.copy(p); controls.target.copy(t); controls.update();
+}
+
+// ---------- state ----------
+let view='closed', play=false, explodeT=0, explodeTarget=0, showPair=true;
+const bPair=document.getElementById('t-pair');
+function setPair(on,reframe){showPair=on; pair.forEach(p=>p.visible=on); bPair.setAttribute('aria-pressed',on); if(reframe) frame(on?'pair':'solo');}
+function applyView(v){
+  view=v;
+  document.querySelectorAll('[data-v]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===v));
+  const clip=v==='front'?[planes.front]:v==='side'?[planes.side]:[];
+  subMats.forEach(m=>{m.clippingPlanes=clip; m.needsUpdate=true;});
+  M.osb.transparent=v==='xray'; M.osb.opacity=v==='xray'?.22:1; M.osb.depthWrite=v!=='xray'; M.osb.needsUpdate=true;
+  explodeTarget=v==='explode'?1:0;
+  if(v==='explode'){ if(showPair) setPair(false,false); frame('explode'); }   // the exploded panels need the pair's room
+  wool.visible=v!=='explode'&&document.getElementById('t-wool').getAttribute('aria-pressed')==='true';
+}
+document.querySelectorAll('[data-v]').forEach(b=>b.addEventListener('click',()=>applyView(b.dataset.v)));
+bPair.addEventListener('click',()=>{const on=!showPair; if(on&&view==='explode') applyView('closed'); setPair(on,true);});
+const tg=(id,fn)=>{const b=document.getElementById(id);b.addEventListener('click',()=>{const on=b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',on);fn(on);});};
+tg('t-play',on=>play=on);
+tg('t-wool',on=>wool.visible=on);
+
+// ---------- theme ----------
+function theme(){scene.background=new THREE.Color(css('--stage')||'#ebe8e1');}
+theme(); try{matchMedia('(prefers-color-scheme: dark)').addEventListener('change',theme);}catch(e){}
+
+// ---------- hover ----------
+const ray=new THREE.Raycaster(), mouse=new THREE.Vector2();
+function visible(o){while(o){if(!o.visible)return false;o=o.parent;}return true;}
+renderer.domElement.addEventListener('pointermove',e=>{
+  const r=renderer.domElement.getBoundingClientRect();
+  mouse.x=((e.clientX-r.left)/r.width)*2-1; mouse.y=-((e.clientY-r.top)/r.height)*2+1;
+  ray.setFromCamera(mouse,camera);
+  const pl=view==='front'?planes.front:view==='side'?planes.side:null;
+  const hits=ray.intersectObjects(scene.children,true).filter(h=>{
+    const d=h.object.userData; if(!d||!d.name||!visible(h.object)) return false;
+    const inSub=!pair.some(p=>{let o=h.object;while(o){if(o===p)return true;o=o.parent;}return false;});
+    if(pl&&inSub&&pl.distanceToPoint(h.point)<0) return false;
+    if(view==='xray'&&h.object.material===M.osb) return false;
+    return true;});
+  if(!hits.length){tip.hidden=true;return;}
+  const d=hits[0].object.userData; tip.textContent='';
+  const b=document.createElement('div'); b.textContent=d.name; const s=document.createElement('small'); s.textContent=d.info; tip.append(b,s);
+  tip.hidden=false;
+  let x=e.clientX-r.left+14, y=e.clientY-r.top+14;
+  if(x>r.width-290) x=e.clientX-r.left-290; if(y>r.height-60) y=e.clientY-r.top-60;
+  tip.style.left=x+'px'; tip.style.top=y+'px';
+});
+renderer.domElement.addEventListener('pointerleave',()=>tip.hidden=true);
+
+// ---------- loop ----------
+function resize(){const w=stage.clientWidth,h=stage.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
+new ResizeObserver(resize).observe(stage); resize();
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let t0=performance.now();
+function tick(now){
+  const dt=Math.min(.05,(now-t0)/1000); t0=now;
+  explodeT+=(explodeTarget-explodeT)*Math.min(1,dt*(reduce?60:6));
+  parts.forEach(p=>p.obj.position.copy(p.home).addScaledVector(p.ex,explodeT));
+  const a=play?Math.sin(now/1000*2*Math.PI*1.6)*7:0;    // 1.6 Hz, 7 mm: slow enough to see
+  drivers.forEach(d=>d.userData.moving.position.x=-a);
+  controls.update(); renderer.render(scene,camera); requestAnimationFrame(tick);
+}
+// URL options for links and screenshots: ?view=xray|front|side|explode&pair=0&cam=solo
+setPair(q.get('pair')!=='0',false);
+frame(q.get('cam')||(q.get('pair')==='0'?'solo':'pair'));
+applyView(q.get('view')||'closed');
+if(q.get('view')==='explode'){explodeT=1;}
+requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>

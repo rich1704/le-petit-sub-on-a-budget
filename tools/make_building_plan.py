@@ -183,7 +183,7 @@ def frame(s, title, scale, n):
     s.rect(x0, y0, 127, 35, "o")
     s.text(x0 + 3, y0 + 8.5, "Le Petit Sub", 5.5)
     s.text(x0 + 52, y0 + 8.5, "Le Petit's bigger twin", 2.4)
-    s.text(x0 + 3, y0 + 13.5, f"sealed, ≈ 40 l net · 2 × {sub.DRIVER_NAME}, opposed · TPA3255 · CamillaDSP", 1.8)
+    s.text(x0 + 3, y0 + 13.5, f"sealed, ≈ 40 l net · 2 × {sub.DRIVER_NAME}, opposed · companion to Le Petit", 1.8)
     s.text(x0 + 3, y0 + 17.5, "22 mm OSB · biscuits (size 20) + wood glue · glued shut, drivers from outside", 1.8)
     s.text(x0 + 3, y0 + 23, title, 2.5)
     s.line(x0, y0 + 25, x0 + 127, y0 + 25, "t")
@@ -716,14 +716,6 @@ def sheet3():
         s.text(x + 30, yy, t, 1.9)
         yy += 3.6
 
-    yy += 5
-    s.text(x, yy, "BEFORE YOU PLAY", 3.0)
-    yy += 7
-    for t in ("Subsonic high-pass (≈ 18 Hz) and limiter (≈ 18 V per channel) are part of the",
-              "build, not options: the Linkwitz transform boosts up to +17 dB at the bottom.",
-              "Start low. Set level and delay against Le Petit by measurement."):
-        s.text(x, yy, t, 1.9)
-        yy += 3.6
     frame(s, "Assembly and hardware", "n.t.s. @ A3", 3)
     return s
 

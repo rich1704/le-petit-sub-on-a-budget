@@ -1,5 +1,5 @@
 site_name: Le Petit Sub on a budget
-site_description: Le Petit's bigger twin — a sealed subwoofer with two opposed 10″ drivers from one sheet of OSB, a TPA3255 and CamillaDSP.
+site_description: Le Petit's bigger twin — a sealed subwoofer with two opposed 10″ drivers from one sheet of OSB, with Le Petit's front.
 site_url: https://rich1704.github.io/le-petit-sub-on-a-budget/
 repo_url: https://github.com/rich1704/le-petit-sub-on-a-budget
 repo_name: le-petit-sub-on-a-budget
@@ -32,12 +32,11 @@ theme:
     - navigation.top
 nav:
   - Home: index.md
+  - 3D model: 3d-model.md
   - Build:
       - Build guide: 01-build.md
       - Building plan: building-plan.md
-  - Sound:
-      - Amp and DSP: 02-amp-and-dsp.md
-      - Design and predictions: 03-design.md
+      - Driver and box: 02-driver-and-box.md
   - Credits & license: CREDITS.md
 markdown_extensions:
   - tables

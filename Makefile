@@ -1,8 +1,7 @@
-# Regenerate every drawing, chart and the CamillaDSP config from tools/sub.py.
+# Regenerate every drawing, the diagram and the 3D stills from tools/sub.py.
 PY ?= python3
-CAMILLADSP ?= camilladsp
 
-all: check plans charts diagrams docs/index.md
+all: check plans diagrams stills docs/index.md
 
 check:
 	$(PY) tools/sub.py
@@ -12,8 +11,8 @@ plans:
 	$(PY) tools/make_cut_layout.py
 	$(PY) tools/svg2png.py docs/plans/building-plan-sheet-1.svg docs/plans/building-plan-sheet-2.svg docs/plans/building-plan-sheet-3.svg
 
-charts:
-	$(PY) tools/make_charts.py
+stills:
+	$(PY) tools/shoot_3d.py
 
 diagrams:
 	$(PY) tools/make_diagrams.py
@@ -21,10 +20,7 @@ diagrams:
 docs/index.md: README.md tools/sync_index.py
 	$(PY) tools/sync_index.py
 
-verify:
-	$(PY) tools/verify_camilla.py $(CAMILLADSP)
-
 site: all
 	mkdocs build --strict
 
-.PHONY: all check plans charts diagrams verify site
+.PHONY: all check plans diagrams stills site

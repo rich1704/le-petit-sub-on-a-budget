@@ -8,7 +8,7 @@ and the reasons.
 | --- | --- |
 | **Result** | a sealed 44-litre box, 340 × 530 × 350 mm, two opposed 10″ drivers in the sides |
 | **Material** | one 2000 × 1000 mm board of 22 mm OSB, square edges |
-| **Tools** | track or circular saw, **router with a circle jig** (or a jigsaw for the cutout), **biscuit joiner**, drill, clamps and a ratchet strap, caulking gun, multimeter |
+| **Tools** | track or circular saw, **router with a circle jig** (or a jigsaw for the cutout), **biscuit joiner**, drill, clamps and a ratchet strap, caulking gun |
 
 ## Parts list
 
@@ -17,7 +17,7 @@ and the reasons.
 - [ ] 48 biscuits, size 20
 - [ ] 12 × M5 threaded inserts for wood (Ø6.5 drill) and 12 × M5 × 16 pan-head screws with washers
 - [ ] foam gasket tape, 3 × 10 mm, ≈ 1.7 m (a ring under each driver frame)
-- [ ] 1 × M20 cable gland and 4-core speaker cable, 2.5 mm², long enough to reach the amp
+- [ ] 1 × M20 cable gland and 4-core speaker cable, 2.5 mm²
 - [ ] 300–500 g loose wool fill (sheep's wool or polyester)
 - [ ] wood glue (PVA), clear water-based lacquer, acrylic sealant
 
@@ -134,12 +134,12 @@ Fit the M20 gland, pull the 4-core cable through and tighten it. Seal round the 
 Then push 300–500 g of loose wool in through the driver holes: the lower half and the corners,
 loosely, and keep a hand's width free around each driver basket.
 
-No wall felt: the box's internal standing waves start around 350 Hz, far above the 80 Hz crossover.
+No wall felt: the box's internal standing waves start around 350 Hz, far above where the sub plays.
 
 ## 12 — Drivers
 
 1. Wire one pair to each driver, **both + to +**.
-2. **Polarity check:** touch a 1.5 V battery to the cable ends at the amp side, + to +. Both cones
+2. **Polarity check:** touch a 1.5 V battery to the free cable ends, + to +. Both cones
    must move **outwards** at the same time.
 3. Gasket tape on the recess floor, driver in, M5 × 16 screws crosswise, snug — not tight.
 
@@ -148,6 +148,3 @@ No wall felt: the box's internal standing waves start around 350 Hz, far above t
 Press one cone in gently with flat fingers and let go. In a sealed box it should come back **slowly**.
 If it springs back at once, there's a leak: listen for it with a low tone at low level, or feel for
 air at the joints, the gland and the driver frames.
-
-Then on to the [amp and DSP](02-amp-and-dsp.md) — the subsonic filter and the limiter go in before
-the first loud note.
