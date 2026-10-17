@@ -100,15 +100,15 @@ A room adds 6–10 dB in the bottom octave, more near a wall or in a corner.
 | --- | --- | --- |
 | Two drivers, opposed | one driver | +6 dB, and the forces on the box cancel |
 | 10″ | 8″ | far more air moved in a box that still has Le Petit's front |
-| Sealed + Linkwitz transform | vented | no port noise, no tuning, tight timing; the amp and the DSP are there anyway |
+| Sealed + Linkwitz transform | vented | no port noise, no tuning, tight timing; the TPA3255 and CamillaDSP supply the power and the boost |
 | Each driver on its own amp channel | both on one | full channel each, the board evenly loaded, 4 Ω per channel |
 | Flush in a 4.5 mm recess | surface-mounted | a clean side, as Le Petit's front; the frame is only 3.56 thick |
 | Glued shut | removable back | a sealed box must not leak, and the drivers come out from outside anyway |
 
 **Ruled out:**
 
-- **One 10″ in a vented box** (the first plan, on a 60 W amp): about 5 dB less everywhere, nothing
-  below 25 Hz, and a port that can chuff.
-- **One 10″ sealed:** 6 dB less, and a single driver shakes the box.
+- **One 10″ in a vented box:** tuning it low in 40 l takes a long, narrow port that chuffs at level,
+  and below the tuning the cone is unloaded — no Linkwitz transform to 25 Hz.
+- **One 10″ sealed:** half the cone area, 6 dB less, and nothing cancels the push on the box.
 - **8″ drivers** fit a smaller box but move far less air.
 - **Bandpass box or tapped horn:** more output in a narrow band, but bigger and far harder to tune.

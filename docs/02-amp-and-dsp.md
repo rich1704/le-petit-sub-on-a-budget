@@ -10,7 +10,8 @@ can't hurt itself.
 
 | | |
 | --- | --- |
-| **Board** | one stereo TPA3255 class-D board on 48 V — it sits with the other amps, nothing is built into the sub |
+| **Board** | one stereo TPA3255 class-D board on 48 V, outside the sub — nothing is built into the box |
+| **Supply** | 48 V, 5 A or more: both channels at the limiter draw about 180 W |
 | **Channels** | left channel → left driver, right channel → right driver |
 | **Input** | one mono sub output from the interface, split to both board inputs with a Y-cable — or OUT 3 and OUT 4 with the same signal |
 | **Cable** | 4-core speaker cable, 2.5 mm², through the M20 gland: one pair per driver |

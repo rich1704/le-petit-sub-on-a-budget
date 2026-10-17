@@ -280,7 +280,7 @@ mixers:
         sources: [{{channel: 0, gain: -6.02, scale: dB}}, {{channel: 1, gain: -6.02, scale: dB}}]
 
 filters:
-  lepetit_hp:              # Le Petit: high-pass at the crossover (replaces its 36 Hz protection high-pass)
+  lepetit_hp:              # Le Petit: high-pass at the crossover (replaces its protective high-pass)
     type: BiquadCombo
     parameters: {{type: LinkwitzRileyHighpass, freq: {XO:.0f}, order: 4}}
   sub_headroom:            # the filters below boost up to +{n['dsp_peak']:.1f} dB: make room first

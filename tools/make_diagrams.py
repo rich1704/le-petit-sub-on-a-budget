@@ -112,7 +112,7 @@ def signal_chain():
     e = [box(20, 120, 130, 60, "Music", "stereo source"),
          box(200, 110, 170, 80, "CamillaDSP", "crossover · LT · limiter", True),
          box(420, 60, 150, 180, "4-out interface", None, True, True),
-         box(650, 30, 120, 56, "Le Petit amp", "e.g. A70"),
+         box(650, 30, 120, 56, "Le Petit amp", "stereo"),
          box(650, 190, 120, 70, "TPA3255", "stereo board, 48 V"),
          box(820, 20, 100, 38, "Le Petit L"), box(820, 64, 100, 38, "Le Petit R"),
          box(820, 176, 100, 42, "sub, left driver"), box(820, 232, 100, 42, "sub, right driver")]
